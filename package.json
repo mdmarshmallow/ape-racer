@@ -1,0 +1,27 @@
+{
+  "name": "ape-racer",
+  "version": "1.0.0",
+  "description": "Ape typing game",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ape-unit/ape-racer.git"
+  },
+  "author": "Marc D'Mello",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ape-unit/ape-racer/issues"
+  },
+  "homepage": "https://github.com/ape-unit/ape-racer#readme",
+  "dependencies": {
+    "express": "^4.16.4",
+    "socket.io": "^2.2.0"
+  },
+  "devDependencies": {
+    "nodemon": "^1.18.10"
+  }
+}
