@@ -1,3 +1,8 @@
 module.exports.getLandingPage = (req, res) => {
-    console.log("Worked");
+    res.render('landing-page');
+}
+
+module.exports.postLandingPage = (req, res) => {
+    req.session.name = req.body.name;
+    res.redirect('/home');
 }
