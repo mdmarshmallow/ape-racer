@@ -18,10 +18,12 @@
   },
   "homepage": "https://github.com/ape-unit/ape-racer#readme",
   "dependencies": {
+    "body-parser": "^1.18.3",
     "express": "^4.16.4",
+    "express-handlebars": "^3.0.1",
     "socket.io": "^2.2.0"
   },
   "devDependencies": {
-    "nodemon": "^1.18.10"
+    "nodemon": "^1.18.9"
   }
 }
