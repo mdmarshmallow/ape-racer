@@ -3,13 +3,32 @@
     <head>
         <meta charset="utf-8">
         <title>Game</title>
-        <script type="text/javascript" src="/js/colyseuys.js"></script>
+        <script type="text/javascript" src="/js/colyseus.js"></script>
         <script type="text/javascript" src="/js/game-script.js"></script>
+        <link rel="stylesheet" href="/styles/game.css">
     </head>
     <body>
-        <p id="countdown">Starting in <span id="countdown_number">10</span></p>
-        <p id="excerpt">{{excerpt}}</p>
-        <br>
-        <input type="text" id="text_input">
+        <div class="game-parent">
+            <div class="countdown-parent">
+                <p id="countdown">Starting in <span id="countdown_number">10</span></p>
+            </div>
+            <div class="progress-parent">
+                <div class="progress-bar pa">
+                    <img class="progress-ape" src="/images/ape.png">
+                </div>
+                <div class="progress-bar pb">
+                    <img class="progress-ape" src="/images/ape.png">
+                </div>
+                <div class="progress-bar pc">
+                    <img class="progress-ape" src="/images/ape.png">
+                </div>
+                <div class="progress-bar pd">
+                    <img class="progress-ape" src="/images/ape.png">
+                </div>
+            </div>
+            <p id="excerpt">{{excerpt}}</p>
+            <br>
+            <input type="text" id="text_input">
+        </div>
     </body>
 </html>

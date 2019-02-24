@@ -1,0 +1,83 @@
+body {
+    font-family: 'Helvetica Neue', Helvetica, sans-serif;
+    background-color: #0a3d62;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+}
+
+.game-parent {
+    width: 600px;
+    max-width: 80%;
+    padding: 50px;
+    background-color: white;
+    border-radius: 3px;
+    box-shadow: 0 1px 5px 0 rgba(0, 0, 0, 0.5);
+}
+
+.progress-parent {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 25px;
+}
+
+.progress-bar {
+    height: 25vh;
+    border-radius: 3px;
+    width: 5%;
+    margin-left: 10%;
+    margin-right: 10%;
+    flex-grow: 0;
+    flex-shrink: 0;
+    position: relative;
+}
+
+.progress-bar.pa { background-color: #38ada9; }
+.progress-bar.pb { background-color: #78e08f; }
+.progress-bar.pc { background-color: #fa983a; }
+.progress-bar.pd { background-color: #e55039; }
+
+.progress-ape {
+    position: relative;
+    top: 54%;
+    left: -50%;
+    right: 50%;
+    width: 200%;
+}
+
+.countdown-parent {
+    background-color: #38ada9;
+    color: white;
+    font-weight: bold;
+    font-size: 1.5rem;
+    text-align: center;
+    border-top-left-radius: 3px;
+    border-top-right-radius: 3px;
+    position: relative;
+    margin-top: -50px;
+    margin-left: -50px;
+    margin-right: -50px;
+    padding-top: 25px;
+    padding-bottom: 1px;
+    margin-bottom: 20px;
+}
+
+#countdown {
+    margin-top: 0;
+}
+
+#excerpt {
+    font-family: 'Times New Roman', Times, serif;
+    background-color: rgba(0, 0, 0, 0.03);
+    border-radius: 3px;
+    padding: 25px;
+    line-height: 1.5em;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+#text_input {
+    margin: auto;
+    display: block;
+}
