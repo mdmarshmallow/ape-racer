@@ -9,20 +9,20 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/ape-unit/ape-racer.git"
+    "url": "git+https://github.com/mdmarshmallow/ape-racer.git"
   },
   "author": "Marc D'Mello",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/ape-unit/ape-racer/issues"
+    "url": "https://github.com/mdmarshmallow/ape-racer/issues"
   },
-  "homepage": "https://github.com/ape-unit/ape-racer#readme",
+  "homepage": "https://github.com/mdmarshmallow/ape-racer#readme",
   "dependencies": {
     "body-parser": "^1.18.3",
+    "colyseus": "^0.9.31",
     "express": "^4.16.4",
     "express-handlebars": "^3.0.0",
     "express-session": "^1.15.6",
-    "socket.io": "^2.2.0",
     "wikijs": "^4.13.0"
   },
   "devDependencies": {

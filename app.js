@@ -1,18 +1,29 @@
 const http = require('http');
 const express = require('express');
 const path = require('path');
-const socketIO = require('socket.io');
 const bodyParser = require('body-parser');
 const expressHbs = require('express-handlebars');
 const session = require('express-session');
+const colyseus = require('colyseus');
 
 const landingPageRoute = require('./routes/landing-page');
 const homeRoute = require('./routes/home');
 const gameRoute = require('./routes/game');
 
+const typeroom = require('./room/typeroom');
+
 const app = express();
-const server = http.createServer(app);
-const io = socketIO(server);
+
+const gameServer = new colyseus.Server({
+    server: http.createServer(app),
+    verifyClient: (info, next) => {
+        //possibly put some validation things here
+        console.log(info.req.url);
+        next(true);
+    }
+});
+
+gameServer.register('typeroom', typeroom);
 
 app.engine('hbs', expressHbs());
 app.set('view engine', 'hbs');
@@ -24,4 +35,4 @@ app.use('/home', homeRoute);
 app.use('/game', gameRoute);
 app.use(landingPageRoute);
 
-server.listen(3000);
+gameServer.listen(3000);

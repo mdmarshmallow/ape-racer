@@ -1,11 +1,12 @@
 const wiki = require('wikijs').default;
 
-//this would choose to either join or create a game
+//this will need to choose to either join or create a game
 module.exports.getGame = (req, res) => {
     wiki()
         .page('Ape')
         .then(page => page.content())
         .then(content => {
+            //some text processing based on how wikijs returns the article
             let contentArray = content.split(" ");
             let contentLength = contentArray.length;
             let excerptLength = 50;
@@ -31,6 +32,7 @@ module.exports.getGame = (req, res) => {
                     } while (!contentArray[index].includes('.'));
                 }
             }
+            
             res.render('game', {
                 excerpt: excerpt
             });
