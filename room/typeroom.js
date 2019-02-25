@@ -21,6 +21,9 @@ module.exports = class TypeRoom extends colyseus.Room {
             } else {
                 this.state.timeToStart--;
             }
+            if (this.state.timeToStart === 3) {
+                this.lock();
+            }
         }, 1000);
         this.updateExcerpt();
     }

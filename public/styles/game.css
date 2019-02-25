@@ -64,6 +64,22 @@ body {
     margin-bottom: 20px;
 }
 
+.correct {
+    color: green
+}
+
+.incorrect {
+    color: red
+}
+
+.highlight {
+    background-color: #d5d9e0
+}
+
+.highlight-wrong {
+    background-color: red
+}
+
 #countdown {
     margin-top: 0;
 }
