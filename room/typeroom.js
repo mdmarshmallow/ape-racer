@@ -5,20 +5,22 @@ module.exports = class TypeRoom extends colyseus.Room {
 
     onInit() {
         this.maxClients = 4;
-        this.generateExcerpt()
-            .then(excerpt => {
-                this.setState({
-                    gameStart: false,
-                    timeToStart: 10,
-                    playersFinished: 0,
-                    numPlayers: 0,
-                    excerpt
-                })
-                this.clock.setTimeout(() => {
-                    this.state.gameStart = true;
-                    this.clock.start();
-                }, 10000);
-            })
+        this.setState({
+            gameStart: false,
+            timeToStart: 10,
+            playersFinished: 0,
+            numPlayers: 0,
+            excerpt: ''
+        });
+        this.clock.setInterval(() => {
+            if (this.state.timeToStart === 0) {
+                this.state.gameStart = true;
+                this.clock.start();
+            } else {
+                this.state.timeToStart--;
+            }
+        }, 1000);
+        this.updateExcerpt();
     }
 
     onJoin() {
@@ -31,11 +33,13 @@ module.exports = class TypeRoom extends colyseus.Room {
     requestJoin() {
         if (this.state.numPlayers === 4) {
             return false;
+        } else {
+            return true;
         }
     }
 
     onMessage(client, data) {
-        let player = this.playerByClientId.get(client);
+        let player = this.playersByClientId.get(client);
         player.wpm = data.wordsFinished / 60;
         if (data.finished === true) {
             this.state.playersFinished++;
@@ -46,7 +50,7 @@ module.exports = class TypeRoom extends colyseus.Room {
     }
 
     onLeave(client) {
-        let player = this.playerByClientId.get(client);
+        let player = this.playersByClientId.get(client);
         if (!player.finished) {
             player.wpm = 0;
         }
@@ -85,5 +89,12 @@ module.exports = class TypeRoom extends colyseus.Room {
                 }
                 return excerpt;
             })
+    }
+
+    updateExcerpt() {
+        this.generateExcerpt()
+            .then(excerpt => {
+                this.state.excerpt = excerpt
+            });
     }
 }

@@ -16,11 +16,6 @@ const app = express();
 
 const gameServer = new colyseus.Server({
     server: http.createServer(app),
-    verifyClient: (info, next) => {
-        //possibly put some validation things here
-        console.log(info.req.url);
-        next(true);
-    }
 });
 
 gameServer.register('typeroom', typeroom);
