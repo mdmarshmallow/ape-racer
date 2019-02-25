@@ -10,11 +10,13 @@ module.exports = class TypeRoom extends colyseus.Room {
             timeToStart: 10,
             playersFinished: 0,
             numPlayers: 0,
-            excerpt: ''
+            excerpt: '',
+            players: {}
         });
         this.clock.setInterval(() => {
             if (this.state.timeToStart === 0) {
                 this.state.gameStart = true;
+                this.clock.clear();
                 this.clock.start();
             } else {
                 this.state.timeToStart--;
@@ -23,7 +25,14 @@ module.exports = class TypeRoom extends colyseus.Room {
         this.updateExcerpt();
     }
 
-    onJoin() {
+    onJoin(client) {
+        this.state.players[client.id] = {
+            playerName: null,
+            wpm: 0,
+            finished: false,
+            playerWordAt: 0,
+            charactersTraversed: 0
+        }
         this.state.numPlayers++;
         if (this.state.numPlayers === 4) {
             this.lock();
@@ -39,18 +48,43 @@ module.exports = class TypeRoom extends colyseus.Room {
     }
 
     onMessage(client, data) {
-        let player = this.playersByClientId.get(client);
-        player.wpm = data.wordsFinished / 60;
+        let player = this.state.players[client.id];
+        if (!player.finished) { 
+            if (data.name) {
+                player.playerName = data.name;
+            }
+            if (data.wordInput) {
+                let word = data.wordInput.replace(/\s/g, '');
+                let success = false;
+                if (player.playerWordAt < this.state.excerptArray.length) {
+                    console.log(word);
+                    console.log(this.state.excerptArray[player.playerWordAt]);
+                    if (word === this.state.excerptArray[player.playerWordAt]) {
+                        player.charactersTraversed += word.length;
+                        success = true;
+                    }
+                    player.playerWordAt++;
+                    let numWords = player.charactersTraversed / 4.84; //gets number of words traversed based on average
+                    let timeSec = this.clock.elapsedTime / 1000; //time since game started
+                    player.wpm = (numWords / timeSec) * 60; //gets words per minute
+                    console.log(player.wpm);
+                    this.send(client, { success });
+                } else {
+                    player.finished = true;
+                }
+            }
+        }
+        /*player.wpm = data.wordsFinished / 60;
         if (data.finished === true) {
             this.state.playersFinished++;
             player.finished = true;
             let time = this.clock.elapsedTime;
             player.wpm = 100;
-        }
+        }*/
     }
 
     onLeave(client) {
-        let player = this.playersByClientId.get(client);
+        let player = this.state.players[client.id];
         if (!player.finished) {
             player.wpm = 0;
         }
@@ -94,7 +128,9 @@ module.exports = class TypeRoom extends colyseus.Room {
     updateExcerpt() {
         this.generateExcerpt()
             .then(excerpt => {
-                this.state.excerpt = excerpt
+                this.state.excerpt = excerpt;
+                this.state.excerptArray = excerpt.split(" "); 
+                this.state.excerptArray.shift(); //gets rid of an empty char at the beginning
             });
     }
 }

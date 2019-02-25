@@ -15,7 +15,7 @@ const typeroom = require('./room/typeroom');
 const app = express();
 
 const gameServer = new colyseus.Server({
-    server: http.createServer(app),
+    server: http.createServer(app)
 });
 
 gameServer.register('typeroom', typeroom);
