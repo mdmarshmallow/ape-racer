@@ -5,6 +5,7 @@ function init() {
     const excerpt = document.getElementById('excerpt');
     const countdown_number = document.getElementById('countdown_number');
     const name = document.getElementById('name').getAttribute('data-name');
+    const wpm_number = document.getElementById('wpm_number');
 
     text_input.disabled = true;
     let client = new Colyseus.Client("ws://localhost:3000");
@@ -40,6 +41,7 @@ function init() {
                     word.className = 'highlight';
                 }
             });
+            text_input.focus();
             text_input.addEventListener('keyup', e => {
                 if (e.charCode !== 32) {
                     let wordInputted = text_input.value.replace(/\s/g, '');
@@ -53,6 +55,11 @@ function init() {
                     }
                 }
             });
+        }
+    });
+    room.listen('players/:id/wpm', change => {
+        if (change.path['id'] === room.sessionId) {
+            wpm_number.innerHTML = Math.round(change.value);
         }
     });
 }

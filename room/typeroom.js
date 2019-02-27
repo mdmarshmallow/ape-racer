@@ -29,7 +29,7 @@ module.exports = class TypeRoom extends colyseus.Room {
     }
 
     onJoin(client) {
-        this.state.players[client.id] = {
+        this.state.players[client.sessionId] = {
             playerName: null,
             wpm: 0,
             finished: false,
@@ -51,7 +51,7 @@ module.exports = class TypeRoom extends colyseus.Room {
     }
 
     onMessage(client, data) {
-        let player = this.state.players[client.id];
+        let player = this.state.players[client.sessionId];
         if (!player.finished) { 
             if (data.name) {
                 player.playerName = data.name;
@@ -77,13 +77,6 @@ module.exports = class TypeRoom extends colyseus.Room {
                 }
             }
         }
-        /*player.wpm = data.wordsFinished / 60;
-        if (data.finished === true) {
-            this.state.playersFinished++;
-            player.finished = true;
-            let time = this.clock.elapsedTime;
-            player.wpm = 100;
-        }*/
     }
 
     onLeave(client) {
