@@ -65,19 +65,19 @@ body {
 }
 
 .correct {
-    color: green
+    color: green;
 }
 
 .incorrect {
-    color: red
+    color: red;
 }
 
 .highlight {
-    background-color: #d5d9e0
+    background-color: #d5d9e0;
 }
 
 .highlight-wrong {
-    background-color: red
+    background-color: rgba(255, 0, 0, 0.3);
 }
 
 #countdown {
@@ -94,6 +94,29 @@ body {
 }
 
 #text_input {
-    margin: auto;
-    display: block;
+    display: inline-block;
+    font-size: 1.5em;
+    padding: 0.3em;
+    border-radius: 3px;
+    border: 1px solid #38ada9;
+    border-right: 0;
+    border-bottom-right-radius: 0;
+    border-top-right-radius: 0;
+}
+
+.input-parent {
+    text-align: center;
+}
+
+.wpm-parent {
+    display: inline-block;
+    background-color: #38ada9;
+    height: 45.38px;
+    padding-left: 15px;
+    padding-right: 15px;
+    color: white;
+    font-weight: bold;
+    border-bottom-right-radius: 3px;
+    border-top-right-radius: 3px;
+    margin-left: -4px;
 }
