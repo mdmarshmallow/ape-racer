@@ -7,6 +7,8 @@ function init() {
     const name = document.getElementById('name').getAttribute('data-name');
     const wpm_number = document.getElementById('wpm_number');
 
+    let playerCount = 0;
+    
     text_input.disabled = true;
     let client = new Colyseus.Client("ws://localhost:3000");
     let room = client.join('typeroom');
@@ -60,6 +62,14 @@ function init() {
     room.listen('players/:id/wpm', change => {
         if (change.path['id'] === room.sessionId) {
             wpm_number.innerHTML = Math.round(change.value);
+        }
+    });
+    room.listen('players/:id', change => {
+        if (change.operation === "add") {
+            let progressBar = document.getElementById('player' + playerCount);
+            progressBar.id = change.path.id;
+            progressBar.style.display = "block";
+            playerCount++;
         }
     });
 }

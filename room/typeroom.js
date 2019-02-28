@@ -80,6 +80,7 @@ module.exports = class TypeRoom extends colyseus.Room {
     }
 
     onLeave(client) {
+        //on leave does not work right now
         let player = this.state.players[client.id];
         if (!player.finished) {
             player.wpm = 0;

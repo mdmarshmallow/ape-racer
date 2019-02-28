@@ -32,6 +32,7 @@ body {
     flex-grow: 0;
     flex-shrink: 0;
     position: relative;
+    display: none;
 }
 
 .progress-bar.pa { background-color: #38ada9; }
