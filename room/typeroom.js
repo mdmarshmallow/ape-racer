@@ -1,4 +1,5 @@
 const colyseus = require('colyseus');
+const request = require('request');
 const wiki = require('wikijs').default;
 
 module.exports = class TypeRoom extends colyseus.Room {
@@ -25,7 +26,7 @@ module.exports = class TypeRoom extends colyseus.Room {
                 this.lock();
             }
         }, 1000);
-        this.updateExcerpt();
+        this.generateExcerpt();
     }
 
     onJoin(client) {
@@ -34,7 +35,8 @@ module.exports = class TypeRoom extends colyseus.Room {
             wpm: 0,
             finished: false,
             playerWordAt: 0,
-            charactersTraversed: 0
+            charactersTraversed: 0,
+            percentageTraversed: 0
         }
         this.state.numPlayers++;
         if (this.state.numPlayers === 4) {
@@ -58,20 +60,18 @@ module.exports = class TypeRoom extends colyseus.Room {
             }
             if (data.wordInput) {
                 let word = data.wordInput.replace(/\s/g, '');
-                let success = false;
                 if (player.playerWordAt < this.state.excerptArray.length) {
                     console.log(word);
                     console.log(this.state.excerptArray[player.playerWordAt]);
                     if (word === this.state.excerptArray[player.playerWordAt]) {
                         player.charactersTraversed += word.length;
-                        success = true;
-                    }
-                    player.playerWordAt++;
-                    let numWords = player.charactersTraversed / 4.84; //gets number of words traversed based on average
-                    let timeSec = this.clock.elapsedTime / 1000; //time since game started
-                    player.wpm = (numWords / timeSec) * 60; //gets words per minute
-                    console.log(player.wpm);
-                    this.send(client, { success });
+                        player.percentageTraversed = player.playerWordAt / (this.state.excerptArray.length - 1);
+                        player.playerWordAt++;
+                        let numWords = player.charactersTraversed / 4.84; //gets number of words traversed based on average
+                        let timeSec = this.clock.elapsedTime / 1000; //time since game started
+                        player.wpm = (numWords / timeSec) * 60; //gets words per minute
+                        console.log(player.wpm);
+                    } 
                 } else {
                     player.finished = true;
                 }
@@ -88,46 +88,30 @@ module.exports = class TypeRoom extends colyseus.Room {
     }
 
     generateExcerpt() {
-        return wiki()
-            .page('Ape')
-            .then(page => page.content())
-            .then(content => {
-                //some text processing based on how wikijs returns the article
-                let contentArray = content.split(" ");
-                let contentLength = contentArray.length;
-                let excerptLength = 50;
-                let randomWord = Math.floor(Math.random() * contentLength - excerptLength);
-                let excerpt = "";
-                let index = randomWord;
-                while (!contentArray[index].includes('.')) {
-                    index++;
-                }
-                index++;
-                for (let i = index; i < excerptLength + randomWord; i++) {
-                    if (!contentArray[i].includes('=')) {
-                        excerpt += " " + contentArray[i];
+        let chooseURL = Math.round(Math.random());
+        let url = 'http://www.gutenberg.org/files/10843/10843-8.txt';
+        request(url, {json: true}, (err, res, body) => {
+            let sentenceArray = body.match( /[^\.!\?]+[\.!\?]+/g );
+            /*
+            159 instances of ape + 101 instances of monkey + 16 instances of chimp
+            + 4 instances of gorilla + 51 instances of orang utan (sic)
+            */
+            let i = Math.floor(Math.random() * sentenceArray.length);
+            let primates = ['ape', 'monkey', 'chimp', 'orang'];
+            let containsPhrase = false;
+            while(!containsPhrase) {
+                let sentence = sentenceArray[i % sentenceArray.length];
+                primates.forEach(primate => {
+                    if (sentence.includes(primate)) {
+                        containsPhrase = true;
+                        this.state.excerpt = sentence;
+                        this.state.excerptArray = sentence.split(/[\s\n\r]+/);
+                        this.state.excerptArray.shift(); //gets rid of empty char in the beginning
+                        console.log(this.state.excerptArray);
                     }
-                    if (i === excerptLength + randomWord - 1) {
-                        let index = i;
-                        do {
-                            index++;
-                            if (contentArray[index].includes('=')) {
-                                contentArray[index].replace(/=/gi, '');
-                            }
-                            excerpt += " " + contentArray[index];
-                        } while (!contentArray[index].includes('.'));
-                    }
-                }
-                return excerpt;
-            })
-    }
-
-    updateExcerpt() {
-        this.generateExcerpt()
-            .then(excerpt => {
-                this.state.excerpt = excerpt;
-                this.state.excerptArray = excerpt.split(" "); 
-                this.state.excerptArray.shift(); //gets rid of an empty char at the beginning
-            });
+                });
+                i++;
+            }
+        });
     }
 }
