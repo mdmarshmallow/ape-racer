@@ -121,3 +121,7 @@ body {
     border-top-right-radius: 3px;
     margin-left: -4px;
 }
+
+.leave-button {
+    display: none;
+}

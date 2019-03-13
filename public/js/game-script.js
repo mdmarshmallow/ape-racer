@@ -6,6 +6,8 @@ function init() {
     const countdown_number = document.getElementById('countdown_number');
     const name = document.getElementById('name').getAttribute('data-name');
     const wpm_number = document.getElementById('wpm_number');
+    const countdown = document.getElementById('countdown');
+    const leaveButton = document.getElementById('leave');
 
     let playerCount = 0;
 
@@ -14,9 +16,11 @@ function init() {
     text_input.disabled = true;
     let client = new Colyseus.Client("ws://localhost:3000");
     let room = client.join('typeroom');
+
     room.onJoin.add(() => {
         room.send({ name });
     });
+
     room.listen('excerptArray', change => {
         let spanArray = change.value.map((value, index) => {
             return "<span id=" + index + ">" + value + "</span>";
@@ -24,7 +28,8 @@ function init() {
         excerptArray = change.value;
         excerpt.innerHTML = spanArray.join(" ");
         document.getElementById(0).className = 'highlight';
-    })
+    });
+
     room.listen('timeToStart', change => {
         countdown_number.innerHTML = change.value;
         let wordCount = 0;
@@ -62,25 +67,49 @@ function init() {
             });
         }
     });
-    room.listen('players/:id/wpm', change => {
-        if (change.path['id'] === room.sessionId) {
-            wpm_number.innerHTML = Math.round(change.value);
-        }
-    });
-    room.listen('players/:id', change => {
+
+    room.listen('players/:id/playerName', change => {
         if (change.operation === "add") {
             let progressBar = document.getElementById('player' + playerCount);
             progressBar.id = change.path.id;
             progressBar.style.display = "block";
             let progressMarker = document.getElementById('player' + playerCount);
             progressMarker.id = change.path.id + 'marker';
+            let playerWPM = document.getElementById('player' + playerCount);
+            playerWPM.id = change.path.id + 'wpm';
+            let nameTag = document.getElementById('name' + playerCount);
+            nameTag.innerHTML = name;
             playerCount++;
         }
     });
+
+    room.listen('players/:id/wpm', change => {
+        if (change.path['id'] === room.sessionId) {
+            wpm_number.innerHTML = Math.round(change.value);
+        }
+        let wpm_to_change = document.getElementById(change.path['id'] + 'wpm');
+        wpm_to_change.innerHTML = Math.round(change.value);
+    });
+
     room.listen('players/:id/percentageTraversed', change => {
         let progressMarker = document.getElementById(change.path['id'] + 'marker');
         //values gotten from progress bar values
         let percentage = 72 - (change.value * 100) * .8
         progressMarker.style.top = percentage + '%';
+    });
+
+    room.listen('players/:id/place', change => {
+        if (change.path['id'] === room.sessionId) {
+            if (change.value === 1) {
+                countdown.innerHTML = "You won!";
+                leaveButton.style.display = "block";
+            } else if (change.value === 2) {
+                countdown.innerHTML = "2nd place!"
+            } else if (change.value === 3) {
+                countdown.innerHTML = "3rd place!";
+            } else if (change.value === 4) {
+                countdown.innerHTML = "4th place!";
+            }
+        }
     });
 }
