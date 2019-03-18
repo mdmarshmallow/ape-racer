@@ -8,6 +8,9 @@ function init() {
     const wpm_number = document.getElementById('wpm_number');
     const countdown = document.getElementById('countdown');
     const endButtons = document.getElementById('end');
+    const create = document.getElementById('created');
+    const startButton = document.getElementById('start_button');
+    const codeBlock = document.getElementById('code_block');
 
     let playerCount = 0;
 
@@ -16,10 +19,36 @@ function init() {
     text_input.disabled = true;
     let client = new Colyseus.Client("ws://localhost:3000");
     //join the private typeroom
-    let room = client.join('typeroom');
+    let room;
+    if (create) {
+        room = client.join('typeroom-private', {
+            create,
+            private: true 
+        });
+    } else {
+        let code = document.getElementById('code_entered').getAttribute('data-code');
+        room = client.join(code, {
+            private: true,
+        });
+    }
+
+    client.onError.add((err) => {
+        console.log(err);
+        alert("You entered the wrong code");
+        window.history.back();
+    })
 
     room.onJoin.add(() => {
         room.send({ name });
+        if (create) {
+            document.getElementById('code').innerHTML = "Code: " + room.id;
+        }
+        if (startButton) {
+            startButton.addEventListener('click', e => {
+                room.send({ timerStart: true });
+                codeBlock.style.display = "none";
+            })
+        };
     });
 
     room.listen('excerptArray', change => {

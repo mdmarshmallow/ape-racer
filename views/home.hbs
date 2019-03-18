@@ -6,8 +6,17 @@
     </head>
     <body>
         <h1>Hello {{name}}</h1>
-        <!-- Change the id here -->
         <a href="/game">Play Game</a>
+        <br>
+        <a href="/game/createroom">Create Private Room</a>
+        <br>
+        Join private room by entering code below:
+        <form action="/game/joinroom" method="GET">
+            Room Code:
+            <input type="text" name="roomCode">
+            <input type="submit" value="Enter Room">
+        </form>
+        <br>
         <a href="/home">Leaderboards</a>
     </body>
 </html>

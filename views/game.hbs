@@ -4,13 +4,33 @@
         <meta charset="utf-8">
         <title>Game</title>
         <script type="text/javascript" src="/js/colyseus.js"></script>
-        <script type="text/javascript" src="/js/game-script.js"></script>
+        {{#if private}}
+            <script type="text/javascript" src="/js/game-private-script.js"></script>
+            {{#if create}}
+                <span id="created" data-create="{{create}}"></span>
+            {{/if}}
+        {{else}}
+            <script type="text/javascript" src="/js/game-script.js"></script>
+        {{/if}}    
         <link rel="stylesheet" href="/styles/game.css">
     </head>
     <body>
         <span id="name" data-name="{{name}}"></span>
         <div class="game-parent">
             <div class="countdown-parent">
+                {{#if private}}
+                    {{#if create}}
+                        <div id="code_block">
+                            <span id="code"></span>
+                            <br>
+                            <button id="start_button">Start</button>
+                            <br>
+                            <br>
+                        </div>
+                    {{else}}
+                        <span id="code_entered" data-code="{{code}}"></span>
+                    {{/if}}
+                {{/if}}
                 <p id="countdown">Starting in <span id="countdown_number">10</span></p>
             </div>
             <!-- ape progress goes from 77% => -5% -->
@@ -44,11 +64,18 @@
                     <p id="wpm"><span id="wpm_number">0</span> WPM</p>
                 </div>
             </div>
-            <a href="/home">
-                <button class="leave-button" id="leave">
-                    Leave
-                </button>
-            </a>
+            <div id="end" class="end-buttons">
+                <a href="/home">
+                    <button>
+                        Leave
+                    </button>
+                </a>
+                <a href="/game">
+                    <button>
+                        Play again
+                    </button>
+                </a>
+            </div>
         </div>
     </body>
 </html>

@@ -3,7 +3,7 @@ const request = require('request');
 
 module.exports = class TypeRoom extends colyseus.Room {
 
-    onInit() {
+    onInit(options) {
         this.maxClients = 4;
         this.setState({
             gameStart: false,
@@ -11,52 +11,71 @@ module.exports = class TypeRoom extends colyseus.Room {
             playersFinished: 0,
             numPlayers: 0,
             excerpt: '',
-            players: {}
+            players: {},
+            creatorId: null,
+            timerStart: false
         });
-        this.clock.setInterval(() => {
-            if (this.state.timeToStart === 0) {
-                this.state.gameStart = true;
-                this.clock.clear();
-                this.clock.start();
-            } else {
-                this.state.timeToStart--;
-            }
-            if (this.state.timeToStart === 3) {
-                this.lock();
-            }
-        }, 1000);
+        if (!options.private) {
+            this.startRoomClock();
+        }
         this.generateExcerpt();
     }
 
     onJoin(client) {
-        this.state.players[client.sessionId] = {
-            playerName: null,
-            wpm: 0,
-            finished: false,
-            playerWordAt: 0,
-            charactersTraversed: 0,
-            percentageTraversed: 0,
-            place: 0
-        }
-        this.state.numPlayers++;
-        if (this.state.numPlayers === 4) {
-            this.lock();
+        if (!this.state.players[client.id]) {
+            this.state.players[client.id] = {
+                playerName: null,
+                wpm: 0,
+                finished: false,
+                playerWordAt: 0,
+                charactersTraversed: 0,
+                percentageTraversed: 0,
+                place: 0
+            }
+            if (this.state.numPlayers === 0) {
+                this.state.creatorId = client.id;
+            }
+            this.state.numPlayers++;
+            if (this.state.numPlayers === 4) {
+                this.lock();
+            }
         }
     }
 
-    requestJoin() {
+    requestJoin(options, isNew) {
         if (this.state.numPlayers === 4) {
             return false;
         } else {
-            return true;
+            if (!options.private) {
+                return true;
+            } else {
+                if (!options.create) {
+                    if (isNew) {
+                        return false;
+                    } else {
+                        return true;
+                    }
+                } else {
+                    if (isNew) {
+                        return true;
+                    } else {
+                        return false;
+                    }
+                }
+            }
         }
     }
 
     onMessage(client, data) {
-        let player = this.state.players[client.sessionId];
+        let player = this.state.players[client.id];
         if (!player.finished) { 
             if (data.name) {
                 player.playerName = data.name;
+            }
+            if (data.timerStart && !this.state.timerStart) {
+                if (client.id === this.state.creatorId) {
+                    this.startRoomClock();
+                }
             }
             if (data.wordInput) {
                 let word = data.wordInput.replace(/\s/g, '');
@@ -82,7 +101,7 @@ module.exports = class TypeRoom extends colyseus.Room {
     }
 
     onLeave(client) {
-        let player = this.state.players[client.sessionId];
+        let player = this.state.players[client.id];
         if (!player.finished) {
             player.wpm = 0;
         }
@@ -91,22 +110,43 @@ module.exports = class TypeRoom extends colyseus.Room {
     generateExcerpt() {
         let url = 'http://www.gutenberg.org/files/10843/10843-8.txt';
         request(url, {json: true}, (err, res, body) => {
-            let sentenceArray = body.match( /[^\.!\?]+[\.!\?]+/g );
-            let i = Math.floor(Math.random() * sentenceArray.length);
-            let primates = ['ape', 'monkey', 'chimp', 'orang'];
-            let containsPhrase = false;
-            while(!containsPhrase) {
-                let sentence = sentenceArray[i % sentenceArray.length];
-                primates.forEach(primate => {
-                    if (sentence.includes(primate) && containsPhrase === false) {
-                        containsPhrase = true;
-                        this.state.excerpt = sentence;
-                        this.state.excerptArray = sentence.split(/[\s\n\r]+/);
-                        this.state.excerptArray.shift(); //gets rid of empty char in the beginning
-                    }
-                });
-                i++;
-            }
+            if (!err) {
+                let sentenceArray = body.match( /[^\.!\?]+[\.!\?]+/g );
+                let i = Math.floor(Math.random() * sentenceArray.length);
+                let primates = ['ape', 'monkey', 'chimp', 'orang'];
+                let containsPhrase = false;
+                while(!containsPhrase) {
+                    let sentence = sentenceArray[i % sentenceArray.length];
+                    primates.forEach(primate => {
+                        if (sentence.includes(primate) && containsPhrase === false) {
+                            containsPhrase = true;
+                            this.state.excerpt = sentence;
+                            this.state.excerptArray = sentence.split(/[\s\n\r]+/);
+                            this.state.excerptArray.shift(); //gets rid of empty char in the beginning
+                        }
+                    });
+                    i++;
+                }
+            } else {
+                this.state.excerpt = "Error";
+                this.state.excerptArray = "Error"
+            }   
         });
+    }
+
+    startRoomClock () {
+        this.state.timerStart = true;
+        this.clock.setInterval(() => {
+            if (this.state.timeToStart === 0) {
+                this.state.gameStart = true;
+                this.clock.clear();
+                this.clock.start();
+            } else {
+                this.state.timeToStart--;
+            }
+            if (this.state.timeToStart === 3) {
+                this.lock();
+            }
+        }, 1000);
     }
 }

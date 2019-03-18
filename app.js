@@ -18,7 +18,13 @@ const gameServer = new colyseus.Server({
     server: http.createServer(app)
 });
 
-gameServer.register('typeroom', typeroom);
+//register another room with the same class but with a private option
+gameServer.register('typeroom', typeroom, {
+    private: false,
+});
+gameServer.register('typeroom-private', typeroom, {
+    private: true
+});
 
 app.engine('hbs', expressHbs());
 app.set('view engine', 'hbs');
