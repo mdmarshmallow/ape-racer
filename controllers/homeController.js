@@ -7,3 +7,7 @@ module.exports.getHomePage = (req, res) => {
         });
     }
 }
+
+module.exports.getLeaderBoard = (req, res) => {
+    res.render('leaderboard');
+}
