@@ -1,0 +1,97 @@
+body {
+    font-family: 'Helvetica Neue', Helvetica, sans-serif;
+    background-color: #0a3d62;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+}
+
+.game-parent {
+    width: 600px;
+    max-width: 80%;
+    padding: 50px;
+    background-color: white;
+    border-radius: 3px;
+    box-shadow: 0 1px 5px 0 rgba(0, 0, 0, 0.5);
+    padding-top: 25px;
+    text-align: center;
+}
+
+.a-button, .a-button-alt {
+    display: inline-block;
+    background-color: #38ada9;
+    padding-left: 15px;
+    padding-right: 15px;
+    margin-left: -4px;
+    color: white;
+    font-weight: bold;
+    border-radius: 3px;
+    border: 1px solid #38ada9;
+    font-size: 1rem;
+    padding: 0.67rem;
+    text-decoration: none;
+    transition: .4s;
+}
+
+.a-button:hover,
+.a-button-alt:hover {
+    background-color: rgba(56, 173, 169, 0.75);
+    color: white;
+}
+
+.a-button-alt {
+    background: none;
+    color: #38ada9;
+}
+
+.or {
+    color: darkgrey;
+    font-weight: bold;
+    padding: 0.5rem;
+}
+
+.room-input {
+    display: inline-block;
+    font-size: 1em;
+    padding: 0.3em;
+    padding-bottom: 0.4em;
+    border-radius: 3px;
+    border: 1px solid #38ada9;
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+}
+
+.room-submit {
+    display: inline-block;
+    background-color: #38ada9;
+    padding-left: 15px;
+    padding-right: 15px;
+    margin-left: -5px;
+    color: white;
+    font-weight: bold;
+    border-radius: 3px;
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+    border: 1px solid #38ada9;
+    font-size: 0.8rem;
+    padding: 0.45rem;
+}
+
+.leaderboard {
+    padding-left: 15px;
+    padding-right: 15px;
+    margin-left: -4px;
+    color: grey;
+    font-weight: bold;
+    border-radius: 3px;
+    font-size: 0.9rem;
+    padding: 0.67rem;
+    text-decoration: none;
+    transition: .4s;
+}
+
+.leaderboard:hover {
+    background-color: darkgrey;
+    color: white;
+}

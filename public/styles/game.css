@@ -18,21 +18,23 @@ body {
 
 .progress-parent {
     display: flex;
-    align-items: center;
+    align-items: flex-end;
     justify-content: center;
     margin-bottom: 25px;
+    min-height: 25vh;
 }
 
 .progress-bar {
     height: 25vh;
     border-radius: 3px;
     width: 5%;
-    margin-left: 10%;
-    margin-right: 10%;
+    margin-left: 3%;
+    margin-right: 15%;
     flex-grow: 0;
     flex-shrink: 0;
     position: relative;
     display: none;
+    transition: 0.2s;
 }
 
 .progress-bar.pa { background-color: #38ada9; }
@@ -46,6 +48,7 @@ body {
     left: -50%;
     right: 50%;
     width: 200%;
+    transform: 0.2s;
 }
 
 .countdown-parent {
@@ -124,4 +127,73 @@ body {
 
 .end-buttons {
     display: none;
+}
+
+.game-box {
+    position: relative;
+    left: 100%;
+    width: 200%;
+    text-align: center;
+    border-radius: 3px;
+    background-color: white;
+    padding: 0.4rem;
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+    word-break: break-all;
+}
+
+.game-speed {
+    display: inline-block;
+    font-weight: bold;
+    font-size: 2rem;
+}
+
+.game-box.pa { background-color: rgba(56,173,169, 0.15); }
+.game-box.pb { background-color: rgba(120,224,143, 0.15); }
+.game-box.pc { background-color: rgba(250,152,58, 0.15); }
+.game-box.pd { background-color: rgba(229,80,57, 0.15); }
+
+.game-speed.pa { color: #38ada9; }
+.game-speed.pb { color: #78e08f; }
+.game-speed.pc { color: #fa983a; }
+.game-speed.pd { color: #e55039; }
+
+.game-name {
+    display: inline-block;
+    text-align: left;
+}
+
+.button-m,
+.button-a {
+    display: inline-block;
+    background-color: #38ada9;
+    padding-left: 15px;
+    padding-right: 15px;
+    margin-left: -4px;
+    color: white;
+    font-weight: bold;
+    border-radius: 3px;
+    border: 1px solid #38ada9;
+    font-size: 1rem;
+    padding: 0.67rem;
+    text-decoration: none;
+    transition: .4s;
+}
+
+.button-m:hover,
+.button-a:hover {
+    background-color: rgba(56, 173, 169, 0.75);
+    color: white;
+}
+
+.button-a {
+    background: none;
+    color: #38ada9;
+    margin-right: 0.5rem;
+}
+
+.end-buttons {
+    margin: auto;
+    text-align: center;
+    margin-top: 1rem;
 }

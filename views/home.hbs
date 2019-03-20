@@ -3,20 +3,26 @@
     <head>
         <meta charset="utf-8">
         <title>Welcome</title>
+        <link rel="stylesheet" href="/styles/home.css">
     </head>
     <body>
-        <h1>Hello {{name}}</h1>
-        <a href="/game">Play Game</a>
-        <br>
-        <a href="/game/createroom">Create Private Room</a>
-        <br>
-        Join private room by entering code below:
-        <form action="/game/joinroom" method="GET">
-            Room Code:
-            <input type="text" name="roomCode">
-            <input type="submit" value="Enter Room">
-        </form>
-        <br>
-        <a href="/home/leaderboard">Leaderboards</a>
+        <div class="game-parent">
+            <h1>Hello {{name}}!</h1>
+            <a class="a-button" href="/game">Play Game</a>
+            <span class="or">OR&nbsp;</span>
+            <a class="a-button-alt" href="/game/createroom">Create Private Room</a>
+            <br/><br/>
+            <hr/>
+            <br/>
+            Or join a private room by entering your code below:
+            <br/><br/>
+            <form action="/game/joinroom" method="GET">
+                Room Code:
+                <input type="text" name="roomCode" class="room-input">
+                <input type="submit" value="Enter Room" class="room-submit">
+            </form>
+            <br/><br/>
+            <a href="/home/leaderboard" class="leaderboard">VIEW LEADERBOARD</a>
+        </div>
     </body>
 </html>

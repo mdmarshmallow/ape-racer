@@ -3,12 +3,16 @@
     <head>
         <meta charset="utf-8">
         <title>Welcome</title>
+        <link rel="stylesheet" href="/styles/landing-page.css">
     </head>
     <body>
-        <form action="/" method="POST">
-            Name: 
-            <input type="text" name="name">
-            <input type="submit" value="Enter">
-        </form>
+        <div>
+            <img class="logo" src="/images/marc.jpg"/>
+            <form action="/" method="POST">
+                <div class="name">Please enter your name</div>
+                <input type="text" name="name" class="name-input">
+                <input type="submit" value="Enter" class="name-submit">
+            </form>
+        </div>
     </body>
 </html>
