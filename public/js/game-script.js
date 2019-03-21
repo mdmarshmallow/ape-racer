@@ -82,6 +82,7 @@ function init() {
             playerWPM.id = change.path.id + 'wpm';
             let nameTag = document.getElementById('name' + playerCount);
             nameTag.innerHTML = change.value;
+            console.log(change.value);
             playerCount++;
         }
     });
