@@ -164,7 +164,8 @@ body {
 }
 
 .button-m,
-.button-a {
+.button-a,
+.button-w {
     display: inline-block;
     background-color: #38ada9;
     padding-left: 15px;
@@ -190,6 +191,18 @@ body {
     background: none;
     color: #38ada9;
     margin-right: 0.5rem;
+}
+
+.button-w {
+    background: none;
+    color: white;
+    border-color: white;
+    margin-top: 1rem;
+}
+
+.button-w:hover {
+    background: white;
+    color: #38ada9;
 }
 
 .end-buttons {

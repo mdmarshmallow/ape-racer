@@ -17,7 +17,9 @@ function init() {
     let excerptArray;
     
     text_input.disabled = true;
-    let client = new Colyseus.Client("ws://localhost:3000");
+    let host = window.document.location.host.replace(/:.*/, '');
+    let client = new Colyseus.Client(location.protocol.replace("http", "ws") +
+        host + (location.port ? ':' + location.port : ''));
     //join the private typeroom
     let room;
     if (create) {

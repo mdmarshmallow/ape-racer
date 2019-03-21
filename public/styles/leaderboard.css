@@ -17,3 +17,21 @@ body {
     padding-top: 25px;
     text-align: center;
 }
+
+.home {
+    padding-left: 15px;
+    padding-right: 15px;
+    margin-left: -4px;
+    color: grey;
+    font-weight: bold;
+    border-radius: 3px;
+    font-size: 0.9rem;
+    padding: 0.67rem;
+    text-decoration: none;
+    transition: .4s;
+}
+
+.home:hover {
+    background-color: darkgrey;
+    color: white;
+}

@@ -16,10 +16,7 @@ module.exports = class TypeRoom extends colyseus.Room {
             creatorId: null,
             timerStart: false
         });
-        if (!options.private) {
-            this.startRoomClock();
-        }
-        this.generateExcerpt();
+        this.generateExcerpt(options.private);
     }
 
     onJoin(client) {
@@ -108,7 +105,7 @@ module.exports = class TypeRoom extends colyseus.Room {
         }
     }
 
-    generateExcerpt() {
+    generateExcerpt(isPrivate) {
         let url = 'http://www.gutenberg.org/files/10843/10843-8.txt';
         request(url, {json: true}, (err, res, body) => {
             if (!err) {
@@ -127,6 +124,9 @@ module.exports = class TypeRoom extends colyseus.Room {
                         }
                     });
                     i++;
+                }
+                if (!isPrivate) {
+                    this.startRoomClock();
                 }
             } else {
                 this.state.excerpt = "Error";
