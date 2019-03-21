@@ -17,12 +17,8 @@ function init() {
     let host = window.document.location.host.replace(/:.*/, '');
     let client = new Colyseus.Client(location.protocol.replace("http", "ws") +
         host + (location.port ? ':' + location.port : ''));
-    //join the private typeroom
+    
     let room = client.join('typeroom', { name });
-
-    // room.onJoin.add(() => {
-    //     room.send({ name });
-    // });
 
     room.listen('excerptArray', change => {
         let spanArray = change.value.map((value, index) => {

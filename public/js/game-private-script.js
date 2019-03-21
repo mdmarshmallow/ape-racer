@@ -25,12 +25,14 @@ function init() {
     if (create) {
         room = client.join('typeroom-private', {
             create,
-            private: true 
+            private: true ,
+            name
         });
     } else {
         let code = document.getElementById('code_entered').getAttribute('data-code');
         room = client.join(code, {
             private: true,
+            name
         });
     }
 
@@ -41,7 +43,6 @@ function init() {
     })
 
     room.onJoin.add(() => {
-        room.send({ name });
         if (create) {
             document.getElementById('code').innerHTML = "Code: " + room.id;
         }
