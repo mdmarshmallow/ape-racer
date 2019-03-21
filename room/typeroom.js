@@ -114,8 +114,7 @@ module.exports = class TypeRoom extends colyseus.Room {
                 let primates = ['ape', 'monkey', 'chimp', 'orang'];
                 let containsPhrase = false;
                 while(!containsPhrase) {
-                    let sentence = sentenceArray[i /*% sentenceArray.length*/];
-                    //console.log(sentence);
+                    let sentence = sentenceArray[i];
                     primates.forEach(primate => {
                         if (sentence.includes(primate) && containsPhrase === false) {
                             containsPhrase = true;
