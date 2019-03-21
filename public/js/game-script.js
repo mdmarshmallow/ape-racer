@@ -73,6 +73,7 @@ function init() {
 
     room.listen('players/:id/playerName', change => {
         if (change.operation === "add") {
+            console.log(change);
             let progressBar = document.getElementById('player' + playerCount);
             progressBar.id = change.path.id;
             progressBar.style.display = "block";
