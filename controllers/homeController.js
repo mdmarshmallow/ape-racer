@@ -1,3 +1,5 @@
+const leaderboard_db = require('../models/leaderboard');
+
 module.exports.getHomePage = (req, res) => {
     if (!req.session.name) {
         res.redirect('/');
@@ -9,5 +11,9 @@ module.exports.getHomePage = (req, res) => {
 }
 
 module.exports.getLeaderBoard = (req, res) => {
-    res.render('leaderboard');
+    leaderboard_db.retrieveLeaderBoard(leaderboard => {
+        res.render('leaderboard', {
+            list: leaderboard
+        });
+    });
 }

@@ -8,16 +8,9 @@
     <body>
         <div class="game-parent">
             <ol>
-                <li>Ape</li>
-                <li>Ape</li>
-                <li>Ape</li>
-                <li>Ape</li>
-                <li>Ape</li>
-                <li>Ape</li>
-                <li>Ape</li>
-                <li>Ape</li>
-                <li>Ape</li>
-                <li>Ape</li>
+                {{#each list}}
+                    <li>{{this.name}} - {{this.wpm}} wpm</li>
+                {{/each}}
             </ol>
         </div>
     </body>

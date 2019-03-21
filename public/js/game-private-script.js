@@ -122,10 +122,10 @@ function init() {
     });
 
     room.listen('players/:id/percentageTraversed', change => {
-        let progressMarker = document.getElementById(change.path['id'] + 'marker');
+        let progressMarker = document.getElementById(change.path['id']);
         //values gotten from progress bar values
-        let percentage = 72 - (change.value * 100) * .8
-        progressMarker.style.top = percentage + '%';
+        let percentage = 15 + (change.value * 100) * .1
+        progressMarker.style.height = percentage + 'vh';
     });
 
     room.listen('players/:id/place', change => {

@@ -95,7 +95,7 @@ function init() {
     room.listen('players/:id/percentageTraversed', change => {
         let progressMarker = document.getElementById(change.path['id']);
         //values gotten from progress bar values
-        let percentage = 13 + (change.value * 100) * .1
+        let percentage = 15 + (change.value * 100) * .1
         progressMarker.style.height = percentage + 'vh';
     });
 

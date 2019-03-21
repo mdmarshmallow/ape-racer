@@ -23,6 +23,7 @@
     "express": "^4.16.4",
     "express-handlebars": "^3.0.0",
     "express-session": "^1.15.6",
+    "firebase-admin": "^7.1.0",
     "request": "^2.88.0",
     "wikijs": "^4.13.0"
   },

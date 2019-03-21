@@ -1,5 +1,6 @@
 const colyseus = require('colyseus');
 const request = require('request');
+const leaderboard_db = require('../models/leaderboard');
 
 module.exports = class TypeRoom extends colyseus.Room {
 
@@ -94,7 +95,7 @@ module.exports = class TypeRoom extends colyseus.Room {
                     player.finished = true;
                     this.state.playersFinished++;
                     player.place = this.state.playersFinished;
-                    //TODO: check score against leaderboard here
+                    leaderboard_db.addToLeaderboard(player.playerName, player.wpm);
                 }
             }
         }
