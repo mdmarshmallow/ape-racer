@@ -1,6 +1,9 @@
 const admin = require('firebase-admin');
 
-const serviceAccount = require('../aperacer-39c23-firebase-adminsdk-18nxy-4d6292d1b1.json');
+/**
+ * Uncomment when using this file for testing
+ */
+//const serviceAccount = require('../aperacer-39c23-firebase-adminsdk-18nxy-4d6292d1b1.json');
 
 admin.initializeApp({
     /**
