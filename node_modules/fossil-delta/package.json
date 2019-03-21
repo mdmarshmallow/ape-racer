@@ -1,0 +1,26 @@
+{
+  "name": "fossil-delta",
+  "version": "1.0.2",
+  "description": "Fossil SCM delta compression",
+  "main": "fossil-delta.js",
+  "keywords": [
+    "delta",
+    "compression",
+    "encoding"
+  ],
+  "scripts": {
+    "build": "uglifyjs fossil-delta.js -c -m -o fossil-delta.min.js",
+    "test": "faucet test/*.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/dchest/fossil-delta-js"
+  },
+  "author": "Dmitry Chestnykh",
+  "license": "BSD",
+  "devDependencies": {
+    "faucet": "0.x.x",
+    "tape": "^2.14.1",
+    "uglify-js": "^2.8.29"
+  }
+}
