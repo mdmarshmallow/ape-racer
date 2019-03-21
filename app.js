@@ -36,4 +36,4 @@ app.use('/home', homeRoute);
 app.use('/game', gameRoute);
 app.use(landingPageRoute);
 
-gameServer.listen(3000);
+gameServer.listen(process.env.PORT || 3000);
