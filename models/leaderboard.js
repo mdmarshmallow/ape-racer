@@ -10,7 +10,7 @@ admin.initializeApp({
     credential: admin.credential.cert({
         projectId: process.env.PROJECT_ID,
         clientEmail: process.env.CLIENT_EMAIL,
-        privateKey: process.env.PRIVATE_KEY
+        privateKey: process.env.PRIVATE_KEY,
     }),
     databaseURL: 'https://aperacer-39c23.firebaseio.com'
 });
