@@ -37,7 +37,7 @@ function init() {
             text_input.addEventListener('keypress', e => {
                 let wordInputted = text_input.value.replace(/\s/g, '');
                 let word = document.getElementById(wordCount);
-                if (e.charCode === 32 && wordInputted == excerptArray[wordCount]) { //space is clicked
+                if (e.charCode === 32 && wordInputted === excerptArray[wordCount]) { //space is clicked
                     room.send({ wordInput: text_input.value });
                     text_input.value = '';
                     if (wordInputted === word.innerHTML) {
@@ -78,10 +78,6 @@ function init() {
             let playerWPM = document.getElementById('player' + playerCount);
             playerWPM.id = change.path.id + 'wpm';
             let nameTag = document.getElementById('name' + playerCount);
-            // room.send({
-            //     htmlId: 'name' + playerCount,
-            //     clientId: change.path.id
-            // });
             nameTag.innerHTML = change.value;
             console.log(change.value);
             playerCount++;

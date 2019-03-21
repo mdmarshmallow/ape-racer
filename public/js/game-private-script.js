@@ -25,7 +25,7 @@ function init() {
     if (create) {
         room = client.join('typeroom-private', {
             create,
-            private: true ,
+            private: true,
             name
         });
     } else {
@@ -40,7 +40,7 @@ function init() {
         console.log(err);
         alert("You entered the wrong code");
         window.history.back();
-    })
+    });
 
     room.onJoin.add(() => {
         if (create) {
@@ -71,7 +71,7 @@ function init() {
             text_input.addEventListener('keypress', e => {
                 let wordInputted = text_input.value.replace(/\s/g, '');
                 let word = document.getElementById(wordCount);
-                if (e.charCode === 32 && wordInputted == excerptArray[wordCount]) { //space is clicked
+                if (e.charCode === 32 && wordInputted === excerptArray[wordCount]) { //space is clicked
                     room.send({ wordInput: text_input.value });
                     text_input.value = '';
                     if (wordInputted === word.innerHTML) {

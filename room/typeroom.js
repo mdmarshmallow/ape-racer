@@ -95,9 +95,6 @@ module.exports = class TypeRoom extends colyseus.Room {
                     leaderboard_db.addToLeaderboard(player.playerName, player.wpm);
                 }
             }
-            // if (data.htmlId) {
-            //     let nameToSend = this.state.players[data.clientId].playerName;
-            // }
         }
     }
 
@@ -117,7 +114,8 @@ module.exports = class TypeRoom extends colyseus.Room {
                 let primates = ['ape', 'monkey', 'chimp', 'orang'];
                 let containsPhrase = false;
                 while(!containsPhrase) {
-                    let sentence = sentenceArray[i % sentenceArray.length];
+                    let sentence = sentenceArray[i /*% sentenceArray.length*/];
+                    //console.log(sentence);
                     primates.forEach(primate => {
                         if (sentence.includes(primate) && containsPhrase === false) {
                             containsPhrase = true;
@@ -126,7 +124,7 @@ module.exports = class TypeRoom extends colyseus.Room {
                             this.state.excerptArray.shift(); //gets rid of empty char in the beginning
                         }
                     });
-                    i++;
+                    i = Math.floor(Math.random() * sentenceArray.length);
                 }
                 if (!isPrivate) {
                     this.startRoomClock();
