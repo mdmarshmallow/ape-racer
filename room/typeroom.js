@@ -19,10 +19,10 @@ module.exports = class TypeRoom extends colyseus.Room {
         this.generateExcerpt(options.private);
     }
 
-    onJoin(client) {
+    onJoin(client, options) {
         if (!this.state.players[client.id]) {
             this.state.players[client.id] = {
-                playerName: null,
+                playerName: options.name,
                 wpm: 0,
                 finished: false,
                 playerWordAt: 0,
@@ -95,6 +95,9 @@ module.exports = class TypeRoom extends colyseus.Room {
                     leaderboard_db.addToLeaderboard(player.playerName, player.wpm);
                 }
             }
+            // if (data.htmlId) {
+            //     let nameToSend = this.state.players[data.clientId].playerName;
+            // }
         }
     }
 

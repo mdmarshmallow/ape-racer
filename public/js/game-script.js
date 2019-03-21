@@ -18,11 +18,11 @@ function init() {
     let client = new Colyseus.Client(location.protocol.replace("http", "ws") +
         host + (location.port ? ':' + location.port : ''));
     //join the private typeroom
-    let room = client.join('typeroom');
+    let room = client.join('typeroom', { name });
 
-    room.onJoin.add(() => {
-        room.send({ name });
-    });
+    // room.onJoin.add(() => {
+    //     room.send({ name });
+    // });
 
     room.listen('excerptArray', change => {
         let spanArray = change.value.map((value, index) => {
@@ -82,6 +82,10 @@ function init() {
             let playerWPM = document.getElementById('player' + playerCount);
             playerWPM.id = change.path.id + 'wpm';
             let nameTag = document.getElementById('name' + playerCount);
+            // room.send({
+            //     htmlId: 'name' + playerCount,
+            //     clientId: change.path.id
+            // });
             nameTag.innerHTML = change.value;
             console.log(change.value);
             playerCount++;
