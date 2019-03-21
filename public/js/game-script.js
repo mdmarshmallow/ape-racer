@@ -107,11 +107,14 @@ function init() {
                 countdown.innerHTML = "You won!";
                 endButtons.style.display = "block";
             } else if (change.value === 2) {
-                countdown.innerHTML = "2nd place!"
+                countdown.innerHTML = "2nd place!";
+                endButtons.style.display = "block";
             } else if (change.value === 3) {
                 countdown.innerHTML = "3rd place!";
+                endButtons.style.display = "block";
             } else if (change.value === 4) {
                 countdown.innerHTML = "4th place!";
+                endButtons.style.display = "block";
             }
         }
     });
