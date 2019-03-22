@@ -116,7 +116,8 @@ module.exports = class TypeRoom extends colyseus.Room {
                 while(!containsPhrase) {
                     let sentence = sentenceArray[i];
                     primates.forEach(primate => {
-                        if (sentence.includes(primate) && containsPhrase === false) {
+                        if (sentence.split(' ').length > 10 && sentence.includes(primate) 
+                                && containsPhrase === false) {
                             containsPhrase = true;
                             this.state.excerpt = sentence;
                             this.state.excerptArray = sentence.split(/[\s\n\r]+/);

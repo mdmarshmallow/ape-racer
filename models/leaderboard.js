@@ -3,18 +3,18 @@ const admin = require('firebase-admin');
 /**
  * Uncomment when using this file for testing
  */
-//const serviceAccount = require('../aperacer-39c23-firebase-adminsdk-18nxy-4d6292d1b1.json');
+const serviceAccount = require('../aperacer-39c23-firebase-adminsdk-18nxy-4d6292d1b1.json');
 
 admin.initializeApp({
     /**
      * Uncomment first credential property for testing, uncomment second for deploying
      */
-    //credential: admin.credential.cert(serviceAccount),
-    credential: admin.credential.cert({
-        projectId: process.env.PROJECT_ID,
-        clientEmail: process.env.CLIENT_EMAIL,
-        privateKey: process.env.PRIVATE_KEY.replace(/\\n/g, '\n'),
-    }),
+    credential: admin.credential.cert(serviceAccount),
+    // credential: admin.credential.cert({
+    //     projectId: process.env.PROJECT_ID,
+    //     clientEmail: process.env.CLIENT_EMAIL,
+    //     privateKey: process.env.PRIVATE_KEY.replace(/\\n/g, '\n'),
+    // }),
     databaseURL: 'https://aperacer-39c23.firebaseio.com'
 });
 
@@ -24,7 +24,7 @@ const ref = database.ref('leaderboard');
 module.exports.addToLeaderboard = (name, wpm) => {
     ref.once('value', snapshot => {
         if (snapshot.val() != null) {
-            if (Object.keys(snapshot.val()).length < 10) {
+            if (Object.keys(snapshot.val()).length < 30) {
                 ref.push({
                     name,
                     wpm
