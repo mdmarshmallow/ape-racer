@@ -22,36 +22,38 @@ const database = admin.database();
 const ref = database.ref('leaderboard');
 
 module.exports.addToLeaderboard = (name, wpm) => {
-    ref.once('value', snapshot => {
-        if (snapshot.val() != null) {
-            if (Object.keys(snapshot.val()).length < 30) {
+    if (wpm < 200) {
+        ref.once('value', snapshot => {
+            if (snapshot.val() != null) {
+                if (Object.keys(snapshot.val()).length < 30) {
+                    ref.push({
+                        name,
+                        wpm
+                    });
+                } else {
+                    let smallestWPM = Number.MAX_VALUE;
+                    let smallestKey;
+                    Object.entries(snapshot.val()).forEach(entry => {
+                        if (entry[1].wpm < smallestWPM) {
+                            smallestWPM = entry[1].wpm;
+                            smallestKey = entry[0];
+                        }
+                    })
+                    if (wpm > smallestWPM) {
+                        ref.child(smallestKey).update({
+                            name,
+                            wpm
+                        });
+                    }
+                }
+            } else {
                 ref.push({
                     name,
                     wpm
                 });
-            } else {
-                let smallestWPM = Number.MAX_VALUE;
-                let smallestKey;
-                Object.entries(snapshot.val()).forEach(entry => {
-                    if (entry[1].wpm < smallestWPM) {
-                        smallestWPM = entry[1].wpm;
-                        smallestKey = entry[0];
-                    }
-                })
-                if (wpm > smallestWPM) {
-                    ref.child(smallestKey).update({
-                        name,
-                        wpm
-                    });
-                }
             }
-        } else {
-            ref.push({
-                name,
-                wpm
-            });
-        }
-    });
+        });
+    }
 }
 
 module.exports.retrieveLeaderBoard = callback => {
